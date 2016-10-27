@@ -9,12 +9,29 @@
 
     1. Configure dependencies for the "brew", "pour" and "drink" tasks
     such that to drink my coffee I must first pour it, and pouring my
-    coffee requires me to first brew it.
+    coffee requires me to first brew it
+
+ **/
+task drinkCoffee {
+    dependsOn = ["pourCoffee", "brewCoffee"]
+    doLast {
+        println "Drink the Yummy Cafiene!"
+    }
+}
+task pourCoffee {
+    finalizedBy "brewCoffee"
+    println "Brew Coffee"
+}
+task brewCoffee {
+    println "Pour coffee"
+}
+/**.
 
     2. Configure dependencies for the "drink" and "addSweetener" tasks
     such that adding sweetener requires that my coffee be poured and if
     I am adding sweetener, I shouldn't drink my coffee until I've done
     so.
+
 
     3. Configure dependencies for the "blackCoffee" and "sweetCoffee"
     tasks so that both include drinking coffee, but the "sweetCoffee"
@@ -40,30 +57,35 @@ task brew {
 }
 
 task pour {
+    dependsOn "brew"
     doLast {
         println "Pouring. Glug, glug, glug."
     }
 }
 
 task addSweetener {
+    mustRunAfter "pour"
     doLast {
         println "Adding sweetener. Stir, stir, stir."
     }
 }
 
 task drink {
+    dependsOn = [ "brew","pour"]
     doLast {
         println "Drinking. Gulp, gulp, gulp."
     }
 }
 
 task blackCoffee {
+    dependsOn = ["brew", "pour", "drink"]
     doLast {
         println "Mmmm, bitter! just how I like it."
     }
 }
 
 task sweetCoffee {
+    dependsOn = ["brew", "pour", "addSweetener", "drink"]
     doLast {
         println "Mmmm, sweet! just how I like it."
     }
