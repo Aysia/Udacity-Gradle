@@ -8,11 +8,31 @@
     1. Create a task named "copyWeb". This task should perform the following:
         a) Copy files from "src/web" to a folder "build/web".
         b) Copy all .txt files from "src/docs" to folder "build/web/help".
+        **/
+
+task copyWeb(type: Copy) {
+    from "src/web"
+    into "web"
+
+    from('src/docs') {
+        include '*.txt'
+        into 'web/help'
+    }
+    into 'build'
+}
+/**
 
     2. Create a task named "bundleWeb". This task should perform the following:
         a) Create a zip file located in the "build" folder named "web.zip".
         b) Include all the files copied by the "copyWeb" task except the
         "images" directory.
+ **/
+
+task bundleWeb(type: Zip) {
+    baseName='web'
+    destinationDir=file('build')
+}
+/**
 
     3. Create a task named "unpackBundle". This task should perform the following:
         a) Expand the zip file created by the "bundleWeb" task.
