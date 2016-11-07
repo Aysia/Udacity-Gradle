@@ -7,6 +7,9 @@ we will typically need to add additional configuration.
 Exercises:
 
 1. Apply the Java plugin to your project.
+**/
+apply plugin: 'java'
+/**
 2. Modify the 'jar' task to add a manifest attribute named
    'Implementation-Version' with a value of '1.0'.
 3. Configure the main source set so that it includes the 'java' directory
@@ -26,3 +29,16 @@ User Guide chapter regarding the Java plugin.
 https://docs.gradle.org/current/userguide/java_plugin.html#sec:source_sets
 
 */
+sourceSets {
+    main {
+        java {
+            srcDir 'java' // 3. Add 'java' directory as a source directory
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Version': '1.0' // 2. Add manifest attribute
+    }
+}
